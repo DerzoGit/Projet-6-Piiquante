@@ -1,4 +1,6 @@
 const Sauce = require("../models/sauce");
+// Import fs, file system, permet de modifier le système de fichiers
+const fs = require("fs");
 
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
