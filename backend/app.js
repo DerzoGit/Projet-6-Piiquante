@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 
 // Import du router des sauces
 const sauceRoutes = require("./routes/sauce");
-
+// Import du router des users
+const userRoutes = require("./routes/user");
 
 // Connexion à la base de données MongoDB
 mongoose.connect("mongodb+srv://Derzo:<password>@cluster0.z4bn4.mongodb.net/P6-Piiquante?retryWrites=true&w=majority",
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use("/api/sauces", sauceRoutes);
+app.use("/api/auth", userRoutes);
 
 // Exporte l'application pour l'utiliser dans server.js
 module.exports = app;
