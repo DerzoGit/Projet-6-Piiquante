@@ -6,9 +6,11 @@ const router = express.Router();
 const sauceCtrl = require("../controllers/sauce");
 // Import du middleware d'authentification
 const auth = require("../middleware/auth");
+// Import du middleware multer
+const multer = require("../middleware/multer-config");
 
 // Route pour créer une sauce
-router.post("/", auth, sauceCtrl.createSauce);
+router.post("/", auth, multer, sauceCtrl.createSauce);
 // Route pour modifier une sauce
 router.put("/:id", auth, sauceCtrl.modifySauce);
 // Route pour supprimer une sauce
