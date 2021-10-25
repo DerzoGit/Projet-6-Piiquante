@@ -4,18 +4,20 @@ const router = express.Router();
 
 // Import du controller de sauce
 const sauceCtrl = require("../controllers/sauce");
+// Import du middleware d'authentification
+const auth = require("../middleware/auth");
 
 // Route pour créer une sauce
-router.post("/", sauceCtrl.createSauce);
+router.post("/", auth, sauceCtrl.createSauce);
 // Route pour modifier une sauce
-router.put("/:id", sauceCtrl.modifySauce);
+router.put("/:id", auth, sauceCtrl.modifySauce);
 // Route pour supprimer une sauce
-router.delete("/:id", sauceCtrl.deleteSauce);
+router.delete("/:id", auth, sauceCtrl.deleteSauce);
 // Route pour récupérer une sauce
-router.get("/:id", sauceCtrl.getOneSauce);
+router.get("/:id", auth, sauceCtrl.getOneSauce);
 // Route pour récupérer toutes les sauces
-router.get("/", sauceCtrl.getAllSauce);
+router.get("/", auth, sauceCtrl.getAllSauce);
 // Route pour récupérer les likes des sauces
-// router.post("/:id/like", sauceCtrl.likeSauce);
+// router.post("/:id/like", auth, sauceCtrl.likeSauce);
 
 module.exports = router;
