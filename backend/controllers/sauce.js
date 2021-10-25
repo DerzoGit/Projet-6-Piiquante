@@ -74,3 +74,7 @@ exports.getAllSauces = (req, res, next) => {
             error
         }));
 };
+
+// exports.likeSauces = (req, res, next) => {
+
+// };
