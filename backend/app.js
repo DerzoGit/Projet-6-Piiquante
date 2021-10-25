@@ -2,6 +2,9 @@
 const express = require("express");
 // Mongoose pour utilisation de base de données MongoDB
 const mongoose = require("mongoose");
+// Import qui donne accès au chemin du système de fichier
+const path = require("path");
+
 
 // Import du router des sauces
 const sauceRoutes = require("./routes/sauce");
@@ -32,6 +35,9 @@ app.use((req, res, next) => {
 
 // Méthode pour transformer corps de requête en objet utilisable
 app.use(express.json());
+
+// Middleware qui permet de récupérer les images dans le dossier dédié
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api/sauces", sauceRoutes);
 app.use("/api/auth", userRoutes);
