@@ -1,5 +1,16 @@
 // Framework express de node.js, facilite contrôle de l'API
 const express = require("express");
+// Mongoose pour utilisation de base de données MongoDB
+const mongoose = require("mongoose");
+
+
+// Connexion à la base de données MongoDB
+mongoose.connect("mongodb+srv://Derzo:<password>@cluster0.z4bn4.mongodb.net/P6-Piiquante?retryWrites=true&w=majority",
+    { useNewUrlParser: true,
+        useUnifiedTopology: true})
+    .then(() => console.log("Connexion à MongoDB réussie !"))
+    .catch(() => console.log("Connexion à MongoDB échouée !"));
+
 
 // Création de l'application en express
 const app = express();
