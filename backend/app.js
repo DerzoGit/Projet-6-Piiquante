@@ -3,6 +3,9 @@ const express = require("express");
 // Mongoose pour utilisation de base de données MongoDB
 const mongoose = require("mongoose");
 
+// Import du router des sauces
+const sauceRoutes = require("./routes/sauce");
+
 
 // Connexion à la base de données MongoDB
 mongoose.connect("mongodb+srv://Derzo:<password>@cluster0.z4bn4.mongodb.net/P6-Piiquante?retryWrites=true&w=majority",
@@ -28,6 +31,8 @@ app.use((req, res, next) => {
 
 // Méthode pour transformer corps de requête en objet utilisable
 app.use(express.json());
+
+app.use("/api/sauces", sauceRoutes);
 
 // Exporte l'application pour l'utiliser dans server.js
 module.exports = app;
