@@ -18,7 +18,7 @@ router.delete("/:id", auth, sauceCtrl.deleteSauce);
 // Route pour récupérer une sauce
 router.get("/:id", auth, sauceCtrl.getOneSauce);
 // Route pour récupérer toutes les sauces
-router.get("/", auth, sauceCtrl.getAllSauce);
+router.get("/", auth, sauceCtrl.getAllSauces);
 // Route pour récupérer les likes des sauces
 // router.post("/:id/like", auth, sauceCtrl.likeSauce);
 
