@@ -7,7 +7,12 @@ exports.createSauce = (req, res, next) => {
     delete sauceObject._id;
     const sauce = new Sauce({
         ...sauceObject,
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+        // Initialisation des likes, dislikes et des utilisateurs ayant like ou dislike la sauce
+        likes: 0,
+        dislikes: 0,
+        usersLiked: [],
+        usersDisliked: []
     });
     sauce.save()
         .then(() => res.status(201).json({
