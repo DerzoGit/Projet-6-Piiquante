@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 // Import qui donne accès au chemin du système de fichier
 const path = require("path");
 
+// Import de dotenv afin de ne pas afficher d'informations de sécurité lors de la connexion à la base de données mongoDB en utilisant des variables d'environnement
+const dotenv = require("dotenv");
+require("dotenv").config();
 
 // Import du router des sauces
 const sauceRoutes = require("./routes/sauce");
@@ -12,7 +15,7 @@ const sauceRoutes = require("./routes/sauce");
 const userRoutes = require("./routes/user");
 
 // Connexion à la base de données MongoDB
-mongoose.connect("mongodb+srv://Derzo:<password>@cluster0.z4bn4.mongodb.net/P6-Piiquante?retryWrites=true&w=majority",
+mongoose.connect(process.env.DB_URI,
     { useNewUrlParser: true,
         useUnifiedTopology: true})
     .then(() => console.log("Connexion à MongoDB réussie !"))
