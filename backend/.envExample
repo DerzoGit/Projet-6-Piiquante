@@ -1,0 +1,1 @@
+DB_URI=mongodb+srv://<db_user>:<db_password>@cluster0.hhgwd.mongodb.net/<databaseName>?retryWrites=true&w=majority
