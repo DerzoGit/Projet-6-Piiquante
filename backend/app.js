@@ -4,6 +4,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 // Import qui donne accès au chemin du système de fichier
 const path = require("path");
+// Import de helmet middleware permettant une protection XSS, sécurisant les requêtes HTTP notamment
+const helmet = require("helmet");
 
 // Import de dotenv afin de ne pas afficher d'informations de sécurité lors de la connexion à la base de données mongoDB en utilisant des variables d'environnement
 const dotenv = require("dotenv");
@@ -38,6 +40,9 @@ app.use((req, res, next) => {
 
 // Méthode pour transformer corps de requête en objet utilisable
 app.use(express.json());
+
+// Middleware permettant une protection XSS, sécurisant les requêtes HTTP notamment
+app.use(helmet());
 
 // Middleware qui permet de récupérer les images dans le dossier dédié
 app.use("/images", express.static(path.join(__dirname, "images")));
