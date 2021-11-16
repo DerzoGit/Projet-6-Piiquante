@@ -7,6 +7,9 @@ const path = require("path");
 // Import de helmet middleware permettant une protection XSS, sécurisant les requêtes HTTP notamment
 const helmet = require("helmet");
 
+const rateLimit = require("express-rate-limit");
+
+
 // Import de dotenv afin de ne pas afficher d'informations de sécurité lors de la connexion à la base de données mongoDB en utilisant des variables d'environnement
 const dotenv = require("dotenv");
 require("dotenv").config();
@@ -37,6 +40,13 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
     next();
 });
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 1 minutes
+    max: 50 // limit each IP to 3 requests per windowMs
+});
+
+app.use(limiter);
 
 // Méthode pour transformer corps de requête en objet utilisable
 app.use(express.json());
