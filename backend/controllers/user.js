@@ -4,17 +4,15 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // Import du model de User
 const User = require("../models/user");
+// Import de password-validator pour renforcer les mots de passe
+const passwordValidator = require("password-validator");
 
-const passwordValidator = require('password-validator');
-
-// Create a schema
+// Créé un schema pour password-validator
 const schema = new passwordValidator();
-
-// Add properties to it
-
 
 // Inscription et sauvegarde de l'utilisateur avec l'email saisi et hash du password
 exports.signup = (req, res, next) => {
+    // Ajoute les propriétés au schema de password-validator
     schema
         .is().min(8) // Minimum length 8
         .is().max(100) // Maximum length 100
