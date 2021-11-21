@@ -6,9 +6,19 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 // Import de password-validator pour renforcer les mots de passe
 const passwordValidator = require("password-validator");
+// Import de maskdata pour anonymiser l'email de l'utilisateur
+const MaskData = require("maskdata");
 
 // Créé un schema pour password-validator
 const schema = new passwordValidator();
+
+// Configuration des paramètres de maskdata
+const emailMask2Options = {
+    maskWith: "*", 
+    unmaskedStartCharactersBeforeAt: 3,
+    unmaskedEndCharactersAfterAt: 2,
+    maskAtTheRate: false
+};
 
 // Inscription et sauvegarde de l'utilisateur avec l'email saisi et hash du password
 exports.signup = (req, res, next) => {
@@ -22,11 +32,14 @@ exports.signup = (req, res, next) => {
         .has().not().spaces() // Should not have spaces
         .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 
+        const email = req.body.email;
+        const maskedEmail = MaskData.maskEmail2(email, emailMask2Options);
+
     if (schema.validate(req.body.password)) {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
-                email: req.body.email,
+                email: maskedEmail,
                 password: hash
             });
             user.save()
