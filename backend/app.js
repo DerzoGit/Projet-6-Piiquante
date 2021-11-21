@@ -4,6 +4,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 // Import qui donne accès au chemin du système de fichier
 const path = require("path");
+// Import de helmet middleware permettant une protection XSS, sécurisant les requêtes HTTP notamment
+const helmet = require("helmet");
+// Import de express-rate-limit permettant une limitation ds requêtes à l'API, notamment sur l'autenthification
+const rateLimit = require("express-rate-limit");
+
 
 // Import de dotenv afin de ne pas afficher d'informations de sécurité lors de la connexion à la base de données mongoDB en utilisant des variables d'environnement
 const dotenv = require("dotenv");
@@ -36,8 +41,19 @@ app.use((req, res, next) => {
     next();
 });
 
+// S'il y a 5 tentatives de connexion avec un mauvais mot de passe, il n'est pas possible de se tenter de se connecter pour 5 minutes
+const limiter = rateLimit({
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    max: 5 // limit each IP to 5 requests per windowMs
+});
+
+app.use(limiter);
+
 // Méthode pour transformer corps de requête en objet utilisable
 app.use(express.json());
+
+// Middleware permettant une protection XSS, sécurisant les requêtes HTTP notamment
+app.use(helmet());
 
 // Middleware qui permet de récupérer les images dans le dossier dédié
 app.use("/images", express.static(path.join(__dirname, "images")));
