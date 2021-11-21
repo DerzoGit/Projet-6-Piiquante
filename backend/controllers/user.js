@@ -42,7 +42,7 @@ exports.signup = (req, res, next) => {
         }));
     } else {
         return res.status(401).json({
-            message: "Mot de passe pas assez fort !"
+            message: "Le mot de passe doit contenir entre 8 et 100 caractères, dont 1 minuscule, 1 majuscule, 2 chiffres et ne doit pas contenir d'espace."
         });
     };
 };
