@@ -14,7 +14,7 @@ const schema = new passwordValidator();
 
 // Configuration des paramètres de maskdata
 const emailMask2Options = {
-    maskWith: "*", 
+    maskWith: "*",
     unmaskedStartCharactersBeforeAt: 3,
     unmaskedEndCharactersAfterAt: 2,
     maskAtTheRate: false
@@ -32,27 +32,27 @@ exports.signup = (req, res, next) => {
         .has().not().spaces() // Should not have spaces
         .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 
-        const email = req.body.email;
-        const maskedEmail = MaskData.maskEmail2(email, emailMask2Options);
+    const email = req.body.email;
+    const maskedEmail = MaskData.maskEmail2(email, emailMask2Options);
 
     if (schema.validate(req.body.password)) {
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            const user = new User({
-                email: maskedEmail,
-                password: hash
-            });
-            user.save()
-                .then(() => res.status(201).json({
-                    message: "Utilisateur créé !"
-                }))
-                .catch(error => res.status(400).json({
-                    error
-                }));
-        })
-        .catch(error => res.status(500).json({
-            error
-        }));
+        bcrypt.hash(req.body.password, 10)
+            .then(hash => {
+                const user = new User({
+                    email: maskedEmail,
+                    password: hash
+                });
+                user.save()
+                    .then(() => res.status(201).json({
+                        message: "Utilisateur créé !"
+                    }))
+                    .catch(error => res.status(400).json({
+                        error
+                    }));
+            })
+            .catch(error => res.status(500).json({
+                error
+            }));
     } else {
         return res.status(401).json({
             message: "Le mot de passe doit contenir entre 8 et 100 caractères, dont 1 minuscule, 1 majuscule, 2 chiffres et ne doit pas contenir d'espace."
@@ -63,8 +63,10 @@ exports.signup = (req, res, next) => {
 
 // Connexion de l'utilisateur avec vérification dans la base de données s'il est présent, puis vérifie le hash du password. Si oui, envoie le token de connexion
 exports.login = (req, res, next) => {
+    const email = req.body.email;
+    const maskedEmail = MaskData.maskEmail2(email, emailMask2Options);
     User.findOne({
-            email: req.body.email
+            email: maskedEmail
         })
         .then(user => {
             if (!user) {
