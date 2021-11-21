@@ -41,10 +41,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// S'il y a 5 tentatives de connexion avec un mauvais mot de passe, il n'est pas possible de se tenter de se connecter pour 5 minutes
 const limiter = rateLimit({
-    windowMs: 5 * 60 * 1000, // 5 minutes
-    max: 5 // limit each IP to 5 requests per windowMs
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
 });
 
 app.use(limiter);
