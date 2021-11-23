@@ -42,11 +42,12 @@ app.use((req, res, next) => {
 });
 
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    max: 10 // limit each IP to 10 requests per windowMs
 });
 
-app.use(limiter);
+app.use("/api/auth/signup", limiter);
+app.use("/api/auth/login", limiter);
 
 // Méthode pour transformer corps de requête en objet utilisable
 app.use(express.json());
